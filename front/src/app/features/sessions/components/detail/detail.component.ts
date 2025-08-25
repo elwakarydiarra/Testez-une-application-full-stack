@@ -7,6 +7,8 @@ import { SessionService } from '../../../../services/session.service';
 import { TeacherService } from '../../../../services/teacher.service';
 import { Session } from '../../interfaces/session.interface';
 import { SessionApiService } from '../../services/session-api.service';
+import { MatCardModule } from "@angular/material/card";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-detail',

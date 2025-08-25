@@ -1,16 +1,17 @@
+// cypress.config.ts
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  videosFolder: 'cypress/videos',
-  screenshotsFolder: 'cypress/screenshots',
-  fixturesFolder: 'cypress/fixtures',
-  video: false,
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
-    setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.ts').default(on, config)
-    },
     baseUrl: 'http://localhost:4200',
+
+    setupNodeEvents: async (on, config) => {
+
+      const mod = await import('@cypress/code-coverage/task')
+      const codeCoverageTask = (mod as any).default ?? (mod as any)
+      codeCoverageTask(on, config)
+
+      return config
+    },
   },
 })
