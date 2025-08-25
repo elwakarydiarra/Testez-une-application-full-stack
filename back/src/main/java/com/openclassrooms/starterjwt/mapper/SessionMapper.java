@@ -2,41 +2,95 @@ package com.openclassrooms.starterjwt.mapper;
 
 import com.openclassrooms.starterjwt.dto.SessionDto;
 import com.openclassrooms.starterjwt.models.Session;
+import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.services.TeacherService;
 import com.openclassrooms.starterjwt.services.UserService;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
-@Mapper(componentModel = "spring", uses = {UserService.class}, imports = {Arrays.class, Collectors.class, Session.class, User.class, Collections.class, Optional.class})
-public abstract class SessionMapper implements EntityMapper<SessionDto, Session> {
+public class SessionMapper implements EntityMapper<SessionDto, Session> {
 
-    @Autowired
-    TeacherService teacherService;
-    @Autowired
-    UserService userService;
+    private final TeacherService teacherService;
+    private final UserService userService;
 
-    @Mappings({
-            @Mapping(source = "description", target = "description"),
-            @Mapping(target = "teacher", expression = "java(sessionDto.getTeacher_id() != null ? this.teacherService.findById(sessionDto.getTeacher_id()) : null)"),
-            @Mapping(target = "users", expression = "java(Optional.ofNullable(sessionDto.getUsers()).orElseGet(Collections::emptyList).stream().map(user_id -> { User user = this.userService.findById(user_id); if (user != null) { return user; } return null; }).collect(Collectors.toList()))"),
-    })
-    public abstract Session toEntity(SessionDto sessionDto);
+    public SessionMapper(TeacherService teacherService, UserService userService) {
+        this.teacherService = teacherService;
+        this.userService = userService;
+    }
 
+    @Override
+    public Session toEntity(SessionDto dto) {
+        if (dto == null) return null;
 
-    @Mappings({
-            @Mapping(source = "description", target = "description"),
-            @Mapping(source = "session.teacher.id", target = "teacher_id"),
-            @Mapping(target = "users", expression = "java(Optional.ofNullable(session.getUsers()).orElseGet(Collections::emptyList).stream().map(u -> u.getId()).collect(Collectors.toList()))"),
-    })
-    public abstract SessionDto toDto(Session session);
+        Session session = new Session();
+        session.setId(dto.getId());
+        session.setName(dto.getName());
+        session.setDate(dto.getDate());
+        session.setDescription(dto.getDescription());
+        session.setCreatedAt(dto.getCreatedAt());
+        session.setUpdatedAt(dto.getUpdatedAt());
+
+        // teacher
+        if (dto.getTeacher_id() != null) {
+            Teacher teacher = teacherService.findById(dto.getTeacher_id());
+            session.setTeacher(teacher);
+        }
+
+        // users
+        if (dto.getUsers() != null) {
+            List<User> users = dto.getUsers().stream()
+                    .map(userService::findById)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            session.setUsers(users);
+        } else {
+            session.setUsers(Collections.emptyList());
+        }
+
+        return session;
+    }
+
+    @Override
+    public SessionDto toDto(Session session) {
+        if (session == null) return null;
+
+        SessionDto dto = new SessionDto();
+        dto.setId(session.getId());
+        dto.setName(session.getName());
+        dto.setDate(session.getDate());
+        dto.setDescription(session.getDescription());
+        dto.setCreatedAt(session.getCreatedAt());
+        dto.setUpdatedAt(session.getUpdatedAt());
+
+        // teacher
+        dto.setTeacher_id(session.getTeacher() != null ? session.getTeacher().getId() : null);
+
+        // users
+        if (session.getUsers() != null) {
+            dto.setUsers(session.getUsers().stream()
+                    .map(User::getId)
+                    .collect(Collectors.toList()));
+        } else {
+            dto.setUsers(Collections.emptyList());
+        }
+
+        return dto;
+    }
+
+    // mapping de listes si besoin
+    public List<SessionDto> toDto(List<Session> sessions) {
+        if (sessions == null) return null;
+        return sessions.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public List<Session> toEntity(List<SessionDto> dtos) {
+        if (dtos == null) return null;
+        return dtos.stream().map(this::toEntity).collect(Collectors.toList());
+    }
 }
