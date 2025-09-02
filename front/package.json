@@ -64,6 +64,7 @@
     "jest-html-reporter": "^3.10.1",
     "jest-marbles": "3.0.3",
     "jest-preset-angular": "^13.1.6",
+    "lcov-parse": "^1.0.0",
     "nyc": "15.1.0",
     "rimraf": "^6.0.1",
     "start-server-and-test": "^2.0.13",
