@@ -3,7 +3,7 @@
 Ce document explique **comment installer la base de données**, **installer et lancer l’application (back & front)**, **exécuter les tests (unitaires, d’intégration & e2e)** et **générer les rapports de couverture**.
 
 > Arborescence supposée :
-> ```P5-Full-Stack-testing
+> P5-Full-Stack-testing
 > /
 > ├─ back/      # Spring Boot (Maven)
 > └─ front/     # Angular (npm + Cypress)
@@ -43,8 +43,15 @@ spring.sql.init.mode=always
 
 
 ---
+## 3) Installation 
+**Clone le dépôt** :
+   ```bash
+   git clone https://github.com/elwakarydiarra/Testez-une-application-full-stack.git
+   cd P5-Full-Stack-testing/
+   branch 2025.4
+   ```
 
-## 3) Installer & lancer le Back
+### lancer le Back
 
 Depuis le dossier `P5-Full-Stack-testing/` :
 ```bash
@@ -79,7 +86,7 @@ Rapports utiles de tests :
 
 ---
 
-## 4) Installer & lancer le Front (Angular)
+## lancer le Front (Angular)
 
 Depuis le dossier `P5-Full-Stack-testing/` :
 ```bash
@@ -123,7 +130,7 @@ Si le projet intègre `@cypress/code-coverage` :
 
 ---
 
-## 5) Lancer l’application complète
+## 4) Lancer l’application complète
 
 1. **Back** :
    ```bash
@@ -139,7 +146,7 @@ Si le projet intègre `@cypress/code-coverage` :
 
 ---
 
-## 6) Générer tous les rapports de couverture (résumé rapide)
+## 5) Générer tous les rapports de couverture (résumé rapide)
 
 - **Back (JaCoCo)** :
   ```bash
@@ -166,6 +173,6 @@ Si le projet intègre `@cypress/code-coverage` :
 ---
 
 
-## 8) Licence & crédits
+## 6) Licence & crédits
 
 Projet pédagogique « Yoga App ». Utilise Spring Boot, Angular, Cypress, JaCoCo & Istanbul.
