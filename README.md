@@ -51,7 +51,7 @@ spring.sql.init.mode=always
    branch 2025.4
    ```
 
-### lancer le Back
+### Lancer le Back
 
 Depuis le dossier `P5-Full-Stack-testing/` :
 ```bash
@@ -86,7 +86,7 @@ Rapports utiles de tests :
 
 ---
 
-## lancer le Front (Angular)
+## Lancer le Front (Angular)
 
 Depuis le dossier `P5-Full-Stack-testing/` :
 ```bash
