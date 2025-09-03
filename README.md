@@ -44,7 +44,7 @@ spring.sql.init.mode=always
 
 ---
 ## 3) Installation 
-**Clone le dépôt** :
+**Cloner le dépôt** :
    ```bash
    git clone https://github.com/elwakarydiarra/Testez-une-application-full-stack.git
    cd P5-Full-Stack-testing/
