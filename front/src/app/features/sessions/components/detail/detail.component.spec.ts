@@ -72,4 +72,5 @@ describe('DetailComponent', () => {
     expect(api.detail).toHaveBeenCalledWith('10');
     expect(component.session).toBeUndefined();
   });
+
 });
